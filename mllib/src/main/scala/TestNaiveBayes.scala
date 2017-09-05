@@ -31,8 +31,8 @@ object TestNaiveBayes extends App{
   val predictionAndLabel = test.map(p => (model.predict(p.features), p.label))
   val accuracy = 1.0 * predictionAndLabel.filter(x => x._1 == x._2).count() / test.count()
 
-  mode.save(sc, "")
-  val sameModel = NaiveBayesModel.load()
+  model.save(sc, "")
+//  val sameModel = NaiveBayesModel.load()
 
 
 

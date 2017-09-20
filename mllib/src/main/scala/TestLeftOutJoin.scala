@@ -13,9 +13,14 @@ object TestLeftOutJoin {
       .getOrCreate()
     val sc = spark.sparkContext
     val rdd1 = sc.parallelize(Map(1 -> 1, 2 -> 2, 3 -> 3).toSeq)
-    val rdd2 = sc.parallelize(Map(2 -> 2, 3 -> 3, 4 -> 4).toSeq)
+    val rdd2 = sc.parallelize(Map(2 -> "a", 3 -> "b", 4 -> "c").toSeq)
 
-    val res = rdd1.leftOuterJoin(rdd2)
+    val rd1 = rdd1.map(x => (x._1, (x._2, 1, 2, 3)))
+    val rd2 = rdd2.map(x => (x._1, ((x._2), 3, 2, 1)))
+
+    // LeftOuterJoin， 返回值格式为：(left key, (left value, Option(right value)))
+    val res = rd1.leftOuterJoin(rd2)
+    res
     res foreach println
 
   }
